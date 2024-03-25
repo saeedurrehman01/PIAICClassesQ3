@@ -1,9 +1,10 @@
 from fastapi import FastAPI
+import uvicorn
 
 app = FastAPI()
 
-@app.get("/get_todos")
-def get_todos():
+@app.get("/gettodos/{id}")
+def gettodos(id):
     print ("get todos called")
     return ("message: Test Todo List")
 
@@ -18,3 +19,6 @@ get_todos()
 def getSingleTodo():
     print("Get todo Called")
     return "getSingleTodo called"
+
+uvicorn.run("todolist.main:app", host="local", port=8080, reload=True )
+
