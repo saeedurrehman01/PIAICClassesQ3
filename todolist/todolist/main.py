@@ -13,8 +13,6 @@ def get_todos():
     print ("get Post todos called")
     return ("message: Test Post Todo List")
 
-get_todos()
-
 @app.get("/getSingleTodo")
 def getSingleTodo():
     print("Get todo Called")
