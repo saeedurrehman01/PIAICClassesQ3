@@ -74,4 +74,4 @@ def deleteStudent(studentID: int):
             return {"message": "Student deleted successfully"}
 
 def start():
-   uvicorn.run ("assignment.main:app", host="127.0.0.1", port=8080, reload=True)
+   uvicorn.run ("todos.main:app", host="127.0.0.1", port=8080, reload=True)
