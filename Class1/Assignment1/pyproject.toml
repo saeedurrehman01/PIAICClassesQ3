@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "assignment1"
+name = "assignment"
 version = "0.1.0"
 description = ""
 authors = ["saeedurrehman01 <saeedrehman241@gmail.com>"]
@@ -11,7 +11,7 @@ fastapi = "^0.110.1"
 uvicorn = {extras = ["standard"], version = "^0.29.0"}
 
 [tool.poetry.scripts]
-dev="assignment1.main:start"
+dev="assignment.main:start"
 
 [build-system]
 requires = ["poetry-core"]

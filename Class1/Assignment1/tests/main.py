@@ -8,6 +8,18 @@ students = [{
     "Name": "One",
     "Age": 15,
     "Grade": "6th"
+},
+{
+    "Student ID": 302,
+    "Name": "Two",
+    "Age": 20,
+    "Grade": "6th"
+},
+{
+    "Student ID": 303,
+    "Name": "Three",
+    "Age": 25,
+    "Grade": "6th"
 }]
 
 # GET /students: Retrieve all students.
@@ -62,4 +74,4 @@ def deleteStudent(studentID: int):
             return {"message": "Student deleted successfully"}
 
 def start():
-   uvicorn.run ("assignment1.main:app", host="127.0.0.1", port=8080, reload=True)
+   uvicorn.run ("assignment.main:app", host="127.0.0.1", port=8080, reload=True)
