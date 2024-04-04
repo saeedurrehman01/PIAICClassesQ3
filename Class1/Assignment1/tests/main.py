@@ -1,55 +1,65 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Dict
-
+from fastapi import FastAPI
 import uvicorn
 
 app = FastAPI()
 
-class Student(BaseModel):
-    id: int
-    name: str
-    age: int
-    grade: str
+students = [{
+    "Student ID": 301,
+    "Name": "One",
+    "Age": 15,
+    "Grade": "6th"
+}]
 
-# In-memory database
-students_db: Dict[int, Student] = {}
-
-# Function to generate unique student id
-def generate_student_id() -> int:
-    return max(students_db.keys(), default=0) + 1
-
+# GET /students: Retrieve all students.
 @app.get("/students")
-async def get_students():
-    return list(students_db.values())
+def getStudents():
+    return students
 
-@app.get("/students/{student_id}")
-async def get_student(student_id: int):
-    student = students_db.get(student_id)
-    if student is None:
-        raise HTTPException(status_code=404, detail="Student not found")
-    return student
+#  GET /students/{student_id}: Retrieve specific student details.
+@app.get("/students")
+def getStudent(studentID: int):
+    global students
+    for student in students:
+        if student["Student ID"] == studentID:
+            return student
 
-@app.post("/students")
-async def create_student(student: Student):
-    student.id = generate_student_id()
-    students_db[student.id] = student
-    return student
+# POST /Students: Add a new student.
+@app.post("/addStudent")
+def addStudent(studentID:int,
+                name:str,
+                age:int,
+                grade:str):
+    global students
+    students.append({"Student ID": studentID,
+                     "Name": name,
+                     "Age": age,
+                     "Grade": grade
+                     })
+    return students
 
-@app.put("/students/{student_id}")
-async def update_student(student_id: int, new_student: Student):
-    if student_id not in students_db:
-        raise HTTPException(status_code=404, detail="Student not found")
-    new_student.id = student_id
-    students_db[student_id] = new_student
-    return new_student
+# PUT /students/{student_id}: Update a student's details.
+@app.put("/addStudent")
+def updateStudent(studentID: int,
+                   name: str,
+                   age: int,
+                   grade: str):
+    global students
+    for student in students:
+        if student["Student ID"] == studentID:
+            student["Name"] = name
+            student["Age"] = age
+            student["Grade"] = grade
+            break
+    return students
 
-@app.delete("/students/{student_id}")
-async def delete_student(student_id: int):
-    if student_id not in students_db:
-        raise HTTPException(status_code=404, detail="Student not found")
-    del students_db[student_id]
-    return {"message": "Student deleted successfully"}
+# DELETE /students/{student_id}: Delete a student.
+@app.delete("/students/{studentID}")
+def deleteStudent(studentID: int):
+    global students
+    for student in students:
+        if student["Student ID"] == studentID:
+            students.remove(student)
+            return {"message": "Student deleted successfully"}
 
 def start():
-    uvicorn.run("Assignment1.main:app",host="127.0.0.1", port=8080, reload=True)
+   uvicorn.run ("assignment1.main:app", host="127.0.0.1", port=8080, reload=True)
